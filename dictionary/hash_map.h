@@ -4,8 +4,6 @@
 #ifndef HASH_MAP_H
 #define HASH_MAP_H
 
-// 10 is a very modest number for the size of the hash map
-// typically a large prime number is used for the size of the hash map
 #define HASH_MAP_SIZE 10
 
 typedef struct
@@ -36,16 +34,12 @@ void hash_map_destroy(hash_map *map)
         return;
     }
     for (int i = 0; i < HASH_MAP_SIZE; i++)
-    {
-        // either one of the following lines will work
-        // key_val_list_destroy(&map->table[i]);
+    {        
         key_val_list_destroy(map->table + i);
     }
     free(map);
 }
 
-// this is a very simple hash function using "polynomial rolling"
-// it is not a very good hash function, but it is simple and works for our purposes
 size_t hash(char *key, size_t table_size)
 {
     size_t hash = 0;
@@ -99,8 +93,7 @@ int hash_map_add(hash_map *map, char *key, int value)
     }
     map->size++;
     map->table->size++;
-    // otherwise, return 0
-    // TODO: implement this function
+
     return 0;
 }
 
@@ -124,8 +117,7 @@ int hash_map_get(hash_map *map, char *key, int *value)
         }
         current = current->next;
     }
-    // TODO: implement this function
-    // if the key does not exist, return -2
+    
     return -2;
 }
 
