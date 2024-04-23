@@ -7,9 +7,6 @@
 
 #define MAX_KEY_LEN 100
 
-// when we typedef a struct you can use the typedef name as a type
-// ie, you won't need to say struct key_val, you can just say key_val
-
 typedef struct
 {
     char key[MAX_KEY_LEN];
@@ -23,7 +20,7 @@ typedef struct key_val_list_node key_val_list_node;
 struct key_val_list_node
 {
     key_val data;
-    key_val_list_node *next; // Now we can directly use key_val_list_node*
+    key_val_list_node *next;
 };
 
 typedef struct
@@ -51,11 +48,6 @@ size_t key_val_list_size(key_val_list *list)
 
 int key_val_list_add(key_val_list *list, char *key, int value)
 {
-    // add a new key value pair to the list
-    // if the list is NULL, return -1
-    // if the key already exists, return -2
-    // if we failed to allocate memory, return -3
-    // otherwise, return 0
     if (list == NULL)
     {
         return -1;
@@ -78,15 +70,7 @@ int key_val_list_add(key_val_list *list, char *key, int value)
     {
         return -3;
     }
-    // notice that the key provided is a reference and we can't trust it to stay alive
-    // we need to copy it into our own memory
-    // do not do this:
-    // new_node->data.key = key;   // this is really bad
-
-    // this is also bad because we don't know how long the key is
-    // strcpy(new_node->data.key, key);
-
-    // instead, we use the safer strncpy function
+    
     strncpy(new_node->data.key, key, MAX_KEY_LEN - 1);
     new_node->data.key[MAX_KEY_LEN - 1] = '\0';
 
@@ -110,9 +94,6 @@ int key_val_list_add(key_val_list *list, char *key, int value)
 
 int key_val_list_remove(key_val_list *list, char *key)
 {
-    // if the list is NULL, return -1
-    // if the key is not found, return -2
-    // otherwise return 0
     if (list == NULL)
     {
         return -1;
@@ -138,7 +119,6 @@ int key_val_list_remove(key_val_list *list, char *key)
                 // we are removing the tail
                 list->tail = previous;
             }
-            // we allocated the memory for this node, so we need to free it
             free(current);
             list->size--;
             return 0;
@@ -152,7 +132,6 @@ int key_val_list_remove(key_val_list *list, char *key)
 // function to free all the memory used by the list
 void key_val_list_destroy(key_val_list *list)
 {
-    // TODO: implement this function
     if (list == NULL)
     {
         return;
